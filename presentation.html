@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>Presentation</title>
+  </head>
+  <body>
+    <h2>Flame Graph in Elixir</h2>
+
+    <ol>
+      <li>
+        <a href="http://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html" target="_blank">
+          CPU Flame Graphs
+        </a>
+        <p>
+        Official Flame Graph website.
+        </p>
+      </li>
+      <li>
+        <a href="sum_square.png" target="_blank">
+          Sum of squares
+        </a>
+        <p>
+        Example mock flame graph. It samples the call stack and aggregates the results.
+        Here, most of the time is spent in <code>square/1</code> which is called from <code>sum_square/2</code>.
+        Some other time is spent in <code>add/2</code> and a tiny bit of time is spent in <code>sum_square/2</code> by itself.
+        </p>
+        <p>
+        The colors and order from left to right are meaningless.
+        </p>
+      </li>
+      <li>
+        <a href="sum_square_mult.png" target="_blank">
+          Sum of squares with mult
+        </a>
+        <p>
+        This flame graph is similar to the one above, but it also shows <code>mult/2</code>.
+        </p>
+      </li>
+      <li>
+        <a href="same.png" target="_blank">
+          Same time for each function
+        </a>
+        <p>
+        This is what a flame graph for code <em>without</em> a performance bottleneck looks like.
+        </p>
+      </li>
+      <li>
+        <a href="different.png" target="_blank">
+          Different times
+        </a>
+        <p>
+        This is what a flame graph for code <em>with</em> a performance bottleneck looks like.
+        </p>
+      </li>
+      <li>
+        <a href="flame-single-user-first.svg" target="_blank">
+          Before
+        </a>
+        <p>
+        This is a real flame graph. It looks a lot like the sample graph in list item 5. The equivalent of <code>bar/0</code>
+        is <code>Elixir.AlertProcessor.ActivePeriodFilter:do_filer/2</code>.
+        </p>
+      </li>
+      <li>
+        <a href="problem.png" target="_blank">
+          Problem
+        </a>
+        <p>
+        Flame graphs don't tell you how to solve the problem, but they do help you find where the problem is.
+        This is the code that the graph tells us is taking 69.08% of all execution time.
+        </p>
+      </li>
+      <li>
+        <a href="solution.png" target="_blank">
+          Solution
+        </a>
+        <p>
+        Now that we know where the problem is, we can refactor the code.
+        </p>
+      </li>
+      <li>
+        <a href="flame-single-user-updated.svg" target="_blank">
+          After
+        </a>
+        <p>
+        This is a flame graph of the same function as list item 6. Now it looks a lot more like the example
+        in 4 than the example in 5.
+        </p>
+      </li>
+      <li>
+        <a href="elixir.png" target="_blank">
+          In Elixir
+        </a>
+        <p>
+        In Elixir, flame graphs can be generated with <a href="https://github.com/proger/eflame" target="_blank">eflame</a>. To use it:
+        <ol>
+          <li>
+            Add <code>{:eflame, "~&gt; 1.0", only: [:dev]}</code> to the <code>deps</code> in your <code>mix.exs</code> file.
+          </li>
+          <li>
+            Wrap the code you want to profile in <code>:eflame.apply/3</code>. For example,
+            replace the code <code>MyModule.foo(a, b, c)</code> with <code>:eflame.apply(MyModule, :foo, [a, b, c])</code>.
+          </li>
+          <li>
+            Run the code. Once it executes, in the terminal, do:
+            <code>./deps/eflame/stack_to_flame.sh &lt; stacks.out &gt; flame.svg</code>.
+          </li>
+        </ol>
+        </p>
+      </li>
+    </ol>
+  </body>
+</html>
